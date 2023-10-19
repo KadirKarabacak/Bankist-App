@@ -4,11 +4,7 @@
 /////////////////////////////////////////////////
 // BANKIST APP
 
-/////////////////////////////////////////////////
-// Data
-
-// DIFFERENT DATA! Contains movement dates, currency and locale
-
+// Datas contains movement dates, currency and locale :
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
@@ -51,8 +47,8 @@ const account2 = {
 
 const accounts = [account1, account2];
 
-/////////////////////////////////////////////////
-// Elements
+///////////////////// SELECTORS ////////////////////////////
+// Labels :
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -64,12 +60,14 @@ const labelTimer = document.querySelector('.timer');
 const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
 
+// Buttons :
 const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
 const btnSort = document.querySelector('.btn--sort');
 
+// Inputs :
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
 const inputTransferTo = document.querySelector('.form__input--to');
@@ -80,7 +78,6 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
-
 const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.abs(Math.round((date2 - date1) / (1000 * 60 * 60 * 24))); // Calculating days passed
@@ -91,14 +88,10 @@ const formatMovementDate = function (date, locale) {
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
-
-  /* const day = `${date.getDate()}`.padStart(2, 0); // to use padStart it must be a string
-  const month = `${date.getMonth() + 1}`.padStart(2, 0); // Same again, and don't forget add +1 cuz of months 0 based
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`; */
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
+// Currency Format :
 const formatCur = function (value, locale, currency) {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -106,6 +99,7 @@ const formatCur = function (value, locale, currency) {
   }).format(value);
 };
 
+// Display Each Movement :
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -115,12 +109,9 @@ const displayMovements = function (acc, sort = false) {
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatMovementDate(date, acc.locale);
-
     const formattedMov = formatCur(mov, acc.locale, acc.currency);
-
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
@@ -130,17 +121,17 @@ const displayMovements = function (acc, sort = false) {
         <div class="movements__value">${formattedMov}</div>
       </div>
     `;
-
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
 
+// Calculate and Display balance :
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-
   labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 };
 
+// Calculate and Display summary :
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
@@ -163,6 +154,7 @@ const calcDisplaySummary = function (acc) {
   labelSumInterest.textContent = formatCur(interest, acc.locale, acc.currency);
 };
 
+// Create user names from owners :
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -174,17 +166,16 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 
+// Update user interface :
 const updateUI = function (acc) {
-  // Display movements
   displayMovements(acc);
 
-  // Display balance
   calcDisplayBalance(acc);
 
-  // Display summary
   calcDisplaySummary(acc);
 };
 
+// Logout Timer :
 const startLogOutTimer = function () {
   const tick = () => {
     const min = String(Math.trunc(time / 60)).padStart(2, 0);
@@ -201,7 +192,7 @@ const startLogOutTimer = function () {
   };
 
   // Set Time to 5 minutes
-  let time = 120;
+  let time = 300;
   // Call the timer every second
   tick();
   const timer = setInterval(tick, 1000);
@@ -209,12 +200,10 @@ const startLogOutTimer = function () {
   return timer;
 };
 
-///////////////////////////////////////
 // Event handlers
 let currentAccount, timer;
 
 btnLogin.addEventListener('click', function (e) {
-  // Prevent form from submitting
   e.preventDefault();
 
   currentAccount = accounts.find(
@@ -232,46 +221,31 @@ btnLogin.addEventListener('click', function (e) {
     //! Experimenting API to DATES
     const now = new Date();
     const options = {
-      // Use this obj to set second argument to DateTimeFormat
       hour: 'numeric',
       minute: 'numeric',
       day: 'numeric',
-      month: 'numeric', // Also 'long' to string, '2-digit' to 08
+      month: 'numeric',
       year: 'numeric',
-      // weekday: 'long', // Days name forexample 'Wednesday'
     };
 
-    /*
-    const locale = navigator.language; // And use it for first arg to DateTimeFormat
-    console.log(locale); */
-
-    // Intl = Internationalizing, DateTimeFormat('lang-COUNTRY').format(istediğimiz format)
     labelDate.textContent = new Intl.DateTimeFormat(
       currentAccount.locale,
       options
     ).format(now);
 
-    // Get Year to display
-    /* const day = `${now.getDate()}`.padStart(2, 0); // to use padStart it must be a string
-    const month = `${now.getMonth() + 1}`.padStart(2, 0); // Same again, and don't forget add +1 cuz of months 0 based
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`; */
-
-    // Clear input fields
+    // Clear input fields :
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
-    // Clear if there is any timer before other login
+    // Clear if there is any timer before other login and restart :
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
 
-    // Update UI
     updateUI(currentAccount);
   }
 });
 
+// Transfer between accounts :
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = +inputTransferAmount.value;
@@ -303,6 +277,7 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+// Loan request :
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -324,6 +299,7 @@ btnLoan.addEventListener('click', function (e) {
   inputLoanAmount.value = '';
 });
 
+// Close Account :
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -335,7 +311,6 @@ btnClose.addEventListener('click', function (e) {
       acc => acc.username === currentAccount.username
     );
     console.log(index);
-    // .indexOf(23)
 
     // Delete account
     accounts.splice(index, 1);
@@ -347,206 +322,10 @@ btnClose.addEventListener('click', function (e) {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 
+// Sort :
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-//! IN JS ALL NUMBERS ARE DECIMAL
-/* console.log(23 === 23.0);
-console.log(0.1 + 0.2 === 0.3); // FALSE */
-
-//! Type Conversion
-/* console.log(Number('23'));
-console.log(+'23'); */ // Simply 23
-
-//! Parsing [ REGEX ] 10 Based
-/* console.log(Number.parseInt('30px', 10)); // 30
-console.log(Number.parseInt('px30', 10)); // NaN
-console.log(Number.parseFloat('2.5rem')); */ // 2.5
-
-//! Check if value is NaN
-/* console.log(Number.isNaN(20)); // False
-console.log(Number.isNaN('20')); // False
-console.log(Number.isNaN('20X')); // False
-console.log(Number.isNaN(23 / 0)); */ // False
-
-//! Checking if value is number
-/* console.log(Number.isFinite(20)); // True
-console.log(Number.isFinite('20')); // False
-console.log(Number.isFinite('20X')); // False
-console.log(Number.isFinite(23 / 0)); */ // False
-
-//! Check if value is integer
-/* console.log(Number.isInteger(20)); // True
-console.log(Number.isInteger(20.0)); // True
-console.log(Number.isInteger(23 / 0)); */ // False
-
-// Sqrt
-/* console.log(Math.sqrt(25));
-console.log(25 ** (1 / 2)); */
-
-//! Max - Min
-/* console.log(Math.max(5, 18, 23, 11, 2));
-console.log(Math.max(5, 18, '23', 11, 2)); // Type conversion
-console.log(Math.max(5, 18, '23px', 11, 2)); */ // Can't parse ( NaN )
-
-//! Creating random number between spesified values like min - max .
-/* const randomInt = (min, max) =>
-  Math.trunc(Math.random() * (max - min) + 1) + min;
-console.log(randomInt(10, 20)); */
-
-//! Rounding integers
-/* console.log(Math.round(23.3)); // 23
-console.log(Math.round(23.9)); */ // 24
-
-//! Rounding highest integer
-/* console.log(Math.ceil(23.3)); // 24
-console.log(Math.ceil(23.9));  */ // 24
-
-//! Rounding smallest integer
-/* console.log(Math.floor(23.3)); //23
-console.log(Math.floor('23.9')); //23
-
-console.log(Math.trunc(-23.3)); // -23
-console.log(Math.floor(-23.3)); */ // -24 [ Correct for negatives ]
-
-//! Rounding decimals
-/* console.log((2.7).toFixed(0)); // 3
-console.log((2.7).toFixed(3)); // 2.700 [ But String ]
-console.log((2.345).toFixed(2)); // 2.35 [ Still String ]
-console.log(+(2.345).toFixed(2));  */ // 2.35 [ NUmber ]
-
-//! Reminder operator
-/* const isEven = n => n % 2 === 0; // Çift - Tek
-console.log(isEven(8));
-console.log(isEven(23));
-console.log(isEven(514));
-
-labelBalance.addEventListener('click', function () {
-  [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
-    if (i % 2 === 0) row.style.backgroundColor = 'orangered'; // Doubles
-
-    if (i % 3 === 0) row.style.backgroundColor = 'blue'; // Trios
-  });
-}); */
-
-//! Numerik Seperator [ For Read Easlier a Huge Number ]
-// 287,460,000,000
-/* const diameter = 287_460_000_000; // 287460000000
-console.log(diameter);
-
-const price = 345_99;
-console.log(price);
-
-const transferFee1 = 15_00;
-const transferFee2 = 1_500;
-console.log(transferFee1);
-console.log(transferFee2);
-
-const PI = 3.14_15;
-console.log(PI); */
-
-//! BIGINT
-// To find max safe number js can manipulate
-/* console.log(2 ** 53 - 1);
-console.log(Number.MAX_SAFE_INTEGER);
-
-console.log(46574415646574316468786435468n); // To do bigint use 'n'
-console.log(BigInt(8657441564657435)); // Can't use larger
-
-// Operations
-console.log(10000n + 10000n);
-console.log(1235413513548678644135468n * 10000n);
-
-const huge = 1213433856983213n;
-const num = 23; */
-
-// console.log(huge * num); // TypeError : Can't use normal num with bigInt
-
-//! CREATING DATES
-/* const now = new Date();
-console.log(now); // Returns now
-
-console.log(new Date('Aug 02 2020 18:05:41'));
-console.log(new Date('December 24, 2015')); // Not useful
-console.log(new Date(account1.movementsDates.at(0))); // Take from somewhere
-
-console.log(new Date(2037, 10, 19, 15, 23, 5)); // Year , month, day, hour, minute, seconds
-console.log(new Date(2037, 10, 31)); // November has 30 days, so its 01 December.
-
-console.log(new Date(0)); // JS starter date point 01 Jan 1970
-console.log(new Date(3 * 24 * 60 * 60 * 1000)); // Adds 3 Days with miliseconds to Date(0)
-console.log(3 * 24 * 60 * 60 * 1000); */ // TimeStamp ( Zaman Damgası )
-
-//! Working with dates
-/* const future = new Date(2037, 10, 19, 15, 23, 5);
-console.log(future);
-console.log(future.getFullYear()); // 2037
-console.log(future.getMonth()); // 10 [ 0 Based ]
-console.log(future.getDate()); // 19
-console.log(future.getDay()); // 4 [ 0 is PAZAR ]
-console.log(future.getHours()); // 15
-console.log(future.getMinutes()); // 23
-console.log(future.getSeconds()); // 5
-console.log(future.toISOString()); // 2037-11-19T12:23:05.000Z [ ISO FORMATTED ]
-console.log(future.getTime()); // 2142246185000
-console.log(new Date(2142246185000)); // Returns same date as future
-console.log(Date.now()); //? To get now's Time Stamp [ ITS IMPORTANT ]
-
-future.setFullYear(2070);
-console.log(future.getFullYear());  */ // 2070
-
-//! NUMBER FORMATING INTERNATIONALIZATION EXAMPLES
-/* const num = 384654154.23;
-
-const options = {
-  style: 'currency', // Cash units
-  currency: 'EUR',
-  useGrouping: true,
-};
-
-console.log('US:  ', new Intl.NumberFormat('en-US', options).format(num));
-console.log('GER:  ', new Intl.NumberFormat('de-DE', options).format(num));
-console.log('SYRIA:  ', new Intl.NumberFormat('ar-SY', options).format(num));
-console.log('TR:  ', new Intl.NumberFormat('tr-TR', options).format(num));
-
-console.log('Locale:  ', new Intl.NumberFormat(navigator.language).format(num)); */
-
-//! [ TIMERS ] setTimeOut [ Returns func after spesified seconds ]
-/* setTimeout(
-  (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2} 🍕`),
-  3000,
-  'olives',
-  'cheese'
-);
-console.log('Waiting...'); */
-
-// Also we can cancel timeout
-/* const ingredients = ['olives', 'cheese'];
-const pizzaTimer = setTimeout(
-  (ing1, ing2) => console.log(`Here is you pizza with ${ing1} and ${ing2}`),
-  3000,
-  ...ingredients
-);
-
-if (ingredients.includes('cheese')) clearTimeout(pizzaTimer); */ // Simply don't return function.
-
-//! SetInterval [ Returns func everys spesified seconds]
-/* setInterval(() => {
-  const now = new Date();
-  const hour = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  console.log(
-    `${hour}:${`${`${minutes}`.padStart(2, 0)}`.padStart(
-      2,
-      0
-    )}:${`${seconds}`.padStart(2, 0)}`
-  );
-}, 1000); */
