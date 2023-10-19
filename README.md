@@ -1,4 +1,5 @@
 ![Bankist-App](Bankist-app.png)
+![Bankist-App](Bankist-app2.png)
 # Bankist-App
 Bu uygulamada basit bir bankacı uygulamasını The Complate Javascript Course - 'Jonas Schmedtmann' eşliğinde  oluşturdum.
 
