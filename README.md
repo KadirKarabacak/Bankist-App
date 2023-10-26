@@ -3,6 +3,9 @@
 # Bankist-App
 Bu uygulamada basit bir bankacı uygulamasını The Complate Javascript Course - 'Jonas Schmedtmann' eşliğinde  oluşturdum.
 
+# Projenin canlı versiyonu :
+https://bankist-app-inky.vercel.app/
+
 ###  1- 🙋‍♂️ Uygulamayı kullanabilmek için gerekli olan kullanıcı bilgileri :
 * Kullanıcı 1 'Jonas Shmedthmann' : <br>
 user : js / PIN  : 1111 <br>
