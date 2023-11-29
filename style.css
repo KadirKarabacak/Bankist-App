@@ -1,3 +1,20 @@
+/* Responsive breakpoints */
+/* 
+@media only screen and (max-width: 25em) {}     400px
+
+@media only screen and (max-width: 37.5em){}    600px
+
+@media only screen and (max-width: 56.25em){}   900px
+
+@media only screen and (max-width: 75em){}      1200px
+
+@media only screen and (min-width: 112.5em){}   1800px
+
+*/
+
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -24,17 +41,52 @@ nav {
   padding: 0 2rem;
 }
 
+@media only screen and (max-width: 56.25em){
+  nav{
+    font-size: 1rem;
+    padding: 0;
+    justify-content: space-evenly;
+  }
+}
+@media only screen and (max-width: 37.5em){
+  nav{
+    flex-direction: column;
+  }
+}
+
 .welcome {
   font-size: 1.9rem;
   font-weight: 500;
+}
+@media only screen and (max-width: 56.25em){
+  .welcome{
+    font-size: 1.3rem;
+  }
 }
 
 .logo {
   height: 5.25rem;
 }
+@media only screen and (max-width: 56.25em){
+  .logo{
+    height: 3rem;
+  }
+}
+@media only screen and (max-width: 37.5em){
+  .logo{
+    margin: 1rem 0;
+  }
+}
 
 .login {
   display: flex;
+}
+@media only screen and (max-width: 37.5em){
+  .login{
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .login__input {
@@ -49,6 +101,20 @@ nav {
   color: inherit;
   border: 1px solid #fff;
   transition: all 0.3s;
+}
+@media only screen and (max-width: 56.25em){
+  .login__input{
+    font-size: 1rem;
+    width: auto;
+        padding: 0.5rem 1rem;
+  }
+}
+@media only screen and (max-width: 25em){
+  .login__input{
+    font-size: 1rem;
+    width: 40%;
+    padding: 0.5rem 1rem;
+  }
 }
 
 .login__input:focus {
@@ -91,6 +157,12 @@ nav {
   opacity: 0;
   transition: all 1s;
 }
+@media only screen and (max-width: 37.5em){
+  .app{
+    margin: 2rem auto;
+    gap: 1rem;
+  }
+}
 
 .balance {
   grid-column: 1 / span 2;
@@ -99,21 +171,67 @@ nav {
   justify-content: space-between;
   margin-bottom: 2rem;
 }
+@media only screen and (max-width: 56.25em){
+  .balance{
+    grid-row: 4 / 5;
+    justify-content: space-evenly;
+  }
+}
+@media only screen and (max-width: 37.5em){
+  .balance{
+    align-items: center;
+    margin-bottom: 0;
+  }
+}
 
 .balance__label {
   font-size: 2.2rem;
   font-weight: 500;
   margin-bottom: -0.2rem;
 }
+@media only screen and (max-width: 37.5em){
+  .balance__label{
+    font-size: 1.6rem;
+  }
+}
+@media only screen and (max-width: 25em) {
+  .balance__label{
+    font-size: 1.4rem;
+  }
+
+  .date{
+    font-size: .8rem;
+  }
+}
 
 .balance__date {
   font-size: 1.4rem;
   color: #888;
 }
-
+@media only screen and (max-width: 37.5em){
+  .balance__date{
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (max-width: 25em) {
+  .balance__date{
+    font-size: 1rem;
+  }
+}
 .balance__value {
   font-size: 4.5rem;
   font-weight: 400;
+}
+@media only screen and (max-width: 37.5em){
+  .balance__value{
+    font-size: 3.5rem;
+    font-weight: bold;
+  }
+}
+@media only screen and (max-width: 25em) {
+  .balance__value{
+    font-size: 2.2rem;
+  }
 }
 
 /* MOVEMENTS */
@@ -123,12 +241,23 @@ nav {
   border-radius: 1rem;
   overflow: scroll;
 }
+@media only screen and (max-width: 56.25em){
+  .movements{
+    grid-column: 1 / span 2;
+    grid-row: 5 / 6;
+  }
+}
 
 .movements__row {
   padding: 2.25rem 4rem;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #eee;
+}
+@media only screen and (max-width: 37.5em){
+  .movements__row{
+    padding: 1rem 1.5rem;
+  }
 }
 
 .movements__type {
@@ -140,12 +269,23 @@ nav {
   border-radius: 10rem;
   margin-right: 2rem;
 }
+@media only screen and (max-width: 25em) {
+  .movements__type{
+    font-size: .9rem;
+    margin-right: 1rem;
+  }
+}
 
 .movements__date {
   font-size: 1.1rem;
   text-transform: uppercase;
   font-weight: 500;
   color: #666;
+}
+@media only screen and (max-width: 25em) {
+  .movements__date{
+    font-size: 0.9rem;
+  }
 }
 
 .movements__type--deposit {
@@ -160,6 +300,12 @@ nav {
   font-size: 1.7rem;
   margin-left: auto;
 }
+@media only screen and (max-width: 25em) {
+  .movements__value{
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+}
 
 /* SUMMARY */
 .summary {
@@ -168,6 +314,15 @@ nav {
   align-items: baseline;
   padding: 0 0.3rem;
   margin-top: 1rem;
+}
+@media only screen and (max-width: 56.25em){
+  .summary{
+    margin: 0 auto;
+    grid-column: 1 / -1;
+    grid-row: 6 / 7;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }
 
 .summary__label {
@@ -181,10 +336,26 @@ nav {
   font-size: 2.2rem;
   margin-right: 2.5rem;
 }
+@media only screen and (max-width: 75em){
+  .summary__value{
+    margin-right: 1.5rem;
+  }
+}
+@media only screen and (max-width: 37.5em){
+  .summary__value{
+    font-size: 1.6rem;
+    margin-right: 1rem;
+  }
+}
 
 .summary__value--in,
 .summary__value--interest {
   color: #66c873;
+}
+@media only screen and (max-width: 75em){
+  .summary__value--interest{
+    margin-right: .5rem;
+  }
 }
 
 .summary__value--out {
@@ -199,6 +370,11 @@ nav {
   font-weight: 500;
   cursor: pointer;
 }
+/* @media only screen and (max-width: 75em){
+  .btn--sort{
+    margin-left: 1rem;
+  }
+} */
 
 /* OPERATIONS */
 .operation {
@@ -206,17 +382,43 @@ nav {
   padding: 3rem 4rem;
   color: #333;
 }
+@media only screen and (max-width: 37.5em){
+  .operation{
+    padding: 2rem 3rem;
+  }
+}
 
 .operation--transfer {
   background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+}
+@media only screen and (max-width: 56.25em){
+  .operation--transfer{
+    grid-column: 1 / -1;
+    margin: 0 auto;
+    grid-row: 1 / 2;
+  }
 }
 
 .operation--loan {
   background-image: linear-gradient(to top left, #39b385, #9be15d);
 }
+@media only screen and (max-width: 56.25em){
+  .operation--loan{
+    grid-column: 1 / -1;
+    margin: 0 auto;
+    grid-row: 2 / 3;
+  }
+}
 
 .operation--close {
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+@media only screen and (max-width: 56.25em){
+  .operation--close{
+    grid-column: 1 / -1;
+    margin: 0 auto;
+    grid-row: 3 / 4;
+  }
 }
 
 h2 {
@@ -224,6 +426,11 @@ h2 {
   font-size: 1.7rem;
   font-weight: 600;
   color: #333;
+}
+@media only screen and (max-width: 25em) {
+  h2{
+    font-size: 1.5rem;
+  }
 }
 
 .form {
@@ -252,6 +459,11 @@ h2 {
   border-radius: 0.7rem;
   transition: all 0.3s;
 }
+@media only screen and (max-width: 25em) {
+  .form__input{
+    font-size: 1.2rem;
+  }
+}
 
 .form__input:focus {
   outline: none;
@@ -261,6 +473,11 @@ h2 {
 .form__label {
   font-size: 1.3rem;
   text-align: center;
+}
+@media only screen and (max-width: 25em) {
+  .form__label{
+    font-size: 1.2rem;
+  }
 }
 
 .form__btn {
@@ -282,6 +499,18 @@ h2 {
   margin-top: 1.9rem;
   text-align: right;
   font-size: 1.25rem;
+}
+@media only screen and (max-width: 56.25em){
+  .logout-timer{
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 1.9rem;
+  }
+}
+@media only screen and (max-width: 37.5em){
+  .logout-timer{
+    font-size: 1.1rem;
+  }
 }
 
 .timer {
